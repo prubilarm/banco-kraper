@@ -18,6 +18,26 @@ app.get('/', (req, res) => {
   res.json({ message: 'Bienvenido a la API de Banco Kraper' });
 });
 
+app.get('/api/health', async (req, res) => {
+  try {
+    const db = require('./config/db');
+    const result = await db.query('SELECT NOW()');
+    res.json({ 
+      status: 'ok', 
+      db: 'connected', 
+      time: result.rows[0].now,
+      jwt_set: !!process.env.JWT_SECRET
+    });
+  } catch (err) {
+    res.status(500).json({ 
+      status: 'error', 
+      message: err.message, 
+      stack: err.stack,
+      db_url_set: !!process.env.DATABASE_URL
+    });
+  }
+});
+
 // Importar Rutas
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/accounts');
