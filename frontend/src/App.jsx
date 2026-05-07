@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Transfer from './pages/Transfer';
 import AdminPanel from './pages/AdminPanel';
+import Landing from './pages/Landing';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
     const { user, loading } = useAuth();
@@ -24,6 +25,7 @@ function App() {
         <AuthProvider>
             <Router>
                 <Routes>
+                    <Route path="/" element={<Landing />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     
@@ -44,8 +46,6 @@ function App() {
                             <AdminPanel />
                         </ProtectedRoute>
                     } />
-
-                    <Route path="/" element={<Navigate to="/dashboard" />} />
                 </Routes>
             </Router>
         </AuthProvider>
